@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using LitJson;
+using UnityEngine.Networking;
 
 public class JsonTest : MonoBehaviour {
 
@@ -11,17 +12,24 @@ public class JsonTest : MonoBehaviour {
     private ReceieveUserInfoData receiveUserInfoData = new ReceieveUserInfoData();
     
     [SerializeField]
-    private string url = "https://unity-api-falcon.herokuapp.com/api/users";
+    private string jsonName;
+    
+    private string url = "http://[::]:8000";
+    
 
     IEnumerator Start () {
         string jsondata = JsonMapper.ToJson (userData);
-        print (jsondata);
         WWWForm form = new WWWForm ();
         form.AddField ("jsondata", jsondata);
         var www = new WWW (url, form);
         yield return www;
-        print (www.text);
         receiveUserInfoData = JsonMapper.ToObject<ReceieveUserInfoData> (www.text);
+
+        UnityWebRequest webRequest = UnityWebRequest.Get(url+ "/" + jsonName);
+        //URLに接続して結果が戻ってくるまで待機
+        yield return webRequest.SendWebRequest();
+
+        Debug.Log("Get" + " : " + webRequest.downloadHandler.text);
     }
     
     void Update () {

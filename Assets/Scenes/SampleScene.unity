@@ -248,7 +248,13 @@ MonoBehaviour:
   userData:
     name: ITI
     age: 24
-  url: https://unity-api-falcon.herokuapp.com/api/users
+  receiveUserInfoData:
+    id: 0
+    age: 0
+    name: 
+    created_at: 
+    updated_at: 
+  jsonName: user_data
 --- !u!4 &887268246
 Transform:
   m_ObjectHideFlags: 0
